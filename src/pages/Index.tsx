@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +12,15 @@ const Index = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isBottomPopupOpen, setIsBottomPopupOpen] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsBottomPopupOpen(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -195,6 +204,53 @@ const Index = () => {
       >
         🎁 БОНУС
       </button>
+
+      {/* Bottom Right Popup */}
+      <div className={`fixed bottom-4 right-4 w-80 bg-gradient-to-br from-red-600 to-red-800 text-white rounded-lg shadow-2xl border-2 border-yellow-500 transform transition-all duration-500 z-50 ${isBottomPopupOpen ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
+        <div className="p-4">
+          <div className="flex justify-between items-start mb-3">
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-sm font-semibold">ОНЛАЙН СЕЙЧАС</span>
+            </div>
+            <button 
+              onClick={() => setIsBottomPopupOpen(false)}
+              className="text-white hover:text-yellow-400 transition-colors"
+            >
+              <Icon name="X" size={16} />
+            </button>
+          </div>
+          
+          <div className="mb-4">
+            <h3 className="text-lg font-bold font-montserrat mb-2">🔥 ГОРЯЧЕЕ ПРЕДЛОЖЕНИЕ!</h3>
+            <p className="text-sm text-gray-200 mb-3">
+              Эксклюзивный бонус <span className="text-yellow-400 font-bold">200% + 200 FS</span> только сегодня!
+            </p>
+            
+            <div className="bg-black/30 rounded-lg p-3 mb-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs text-gray-300">Игроков онлайн:</span>
+                <span className="text-yellow-400 font-bold">12,847</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-300">Выиграно сегодня:</span>
+                <span className="text-green-400 font-bold">€2,847,592</span>
+              </div>
+            </div>
+          </div>
+          
+          <Button 
+            onClick={handleClick}
+            className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-bold hover:from-yellow-600 hover:to-yellow-700 transform hover:scale-105 transition-all"
+          >
+            ЗАБРАТЬ БОНУС 🎁
+          </Button>
+          
+          <p className="text-xs text-gray-300 text-center mt-2">
+            Предложение ограничено по времени
+          </p>
+        </div>
+      </div>
       {/* Header */}
       <header className="bg-black/80 backdrop-blur-md border-b border-yellow-500/30 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
