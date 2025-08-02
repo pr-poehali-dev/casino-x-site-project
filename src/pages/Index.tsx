@@ -11,6 +11,7 @@ const REFERRAL_LINK = "https://irwinway3.com/c3ac5cee5?btag=";
 const Index = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -125,7 +126,75 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-red-900 to-black text-white font-open-sans">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-red-900 to-black text-white font-open-sans relative">
+      {/* Welcome Popup */}
+      <div className={`fixed left-0 top-0 h-full w-80 bg-gradient-to-b from-yellow-600 to-yellow-500 text-black transform transition-transform duration-500 z-50 shadow-2xl ${isPopupOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="p-6 h-full flex flex-col">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold font-montserrat">ДОБРО ПОЖАЛОВАТЬ!</h2>
+            <button 
+              onClick={() => setIsPopupOpen(false)}
+              className="text-black hover:text-red-800 transition-colors"
+            >
+              <Icon name="X" size={24} />
+            </button>
+          </div>
+          
+          <div className="mb-6">
+            <div className="bg-black/20 rounded-lg p-4 mb-4">
+              <h3 className="text-xl font-bold mb-2">🎁 БОНУС 200%</h3>
+              <p className="text-sm">До 100,000₽ + 200 фриспинов на первый депозит!</p>
+            </div>
+            
+            <div className="bg-black/20 rounded-lg p-4 mb-4">
+              <h3 className="text-lg font-bold mb-2">⚡ БЫСТРАЯ РЕГИСТРАЦИЯ</h3>
+              <p className="text-sm">Всего 1 минута и вы в игре!</p>
+            </div>
+            
+            <div className="bg-black/20 rounded-lg p-4">
+              <h3 className="text-lg font-bold mb-2">🔒 ЛИЦЕНЗИЯ КЮРАСАО</h3>
+              <p className="text-sm">100% безопасность ваших средств</p>
+            </div>
+          </div>
+          
+          <div className="mt-auto space-y-3">
+            <Button 
+              onClick={handleClick}
+              className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 text-lg"
+            >
+              ИГРАТЬ СЕЙЧАС
+            </Button>
+            <Button 
+              onClick={handleClick}
+              variant="outline"
+              className="w-full border-black text-black hover:bg-black hover:text-yellow-400 font-semibold py-3"
+            >
+              ПОЛУЧИТЬ БОНУС
+            </Button>
+          </div>
+          
+          <div className="mt-4 text-center">
+            <p className="text-xs text-black/70">Играйте ответственно. 18+</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Overlay */}
+      {isPopupOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={() => setIsPopupOpen(false)}
+        />
+      )}
+      
+      {/* Popup Trigger Button */}
+      <button
+        onClick={() => setIsPopupOpen(true)}
+        className="fixed left-4 top-1/2 -translate-y-1/2 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-3 py-6 rounded-r-lg font-bold text-sm z-30 hover:from-yellow-600 hover:to-yellow-700 transition-all transform hover:scale-105 shadow-lg"
+        style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+      >
+        🎁 БОНУС
+      </button>
       {/* Header */}
       <header className="bg-black/80 backdrop-blur-md border-b border-yellow-500/30 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
@@ -222,15 +291,16 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="aspect-video bg-gradient-to-br from-red-800 to-red-900 rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
-                    {slot.id <= 3 ? (
-                      <img 
-                        src={`/img/${slot.id === 1 ? '57877f77-90d3-4f42-882a-77d48fc06298.jpg' : slot.id === 2 ? '482aea89-09f6-44ea-a5bb-c5b4a036e24e.jpg' : 'dca75c15-c5e3-4426-b6fb-c4b33f0bb286.jpg'}`}
-                        alt={slot.title}
-                        className="w-full h-full object-cover rounded-lg"
-                      />
-                    ) : (
-                      <Icon name="Gamepad2" size={48} className="text-yellow-400" />
-                    )}
+                    <img 
+                      src={`/img/${slot.id === 1 ? '57877f77-90d3-4f42-882a-77d48fc06298.jpg' : 
+                        slot.id === 2 ? '482aea89-09f6-44ea-a5bb-c5b4a036e24e.jpg' : 
+                        slot.id === 3 ? 'dca75c15-c5e3-4426-b6fb-c4b33f0bb286.jpg' :
+                        slot.id === 4 ? '3661d1e9-1c76-42ae-9095-df5b0fd52dc1.jpg' :
+                        slot.id === 5 ? '81df396e-b4d5-4f57-992c-62ee8fc28ba1.jpg' :
+                        '7d60af1b-8b91-4046-9bc1-7d957673e45e.jpg'}`}
+                      alt={slot.title}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between">
